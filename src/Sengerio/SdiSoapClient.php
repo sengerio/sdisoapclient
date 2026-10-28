@@ -13,9 +13,11 @@ class SdiSoapClient extends \SoapClient
     /**
      * @inheritdoc
      */
-    public function __doRequest($request, $location, $action, $version, $one_way = null)
+    #[\ReturnTypeWillChange]
+    public function __doRequest($request, $location, $action, $version, $one_way = false, ...$extra)
     {
-        $response = parent::__doRequest($request, $location, $action, $version, $one_way);
+        // $extra: da PHP 8.5 SoapClient aggiunge $uriParserClass, lo inoltriamo al parent
+        $response = parent::__doRequest($request, $location, $action, $version, $one_way, ...$extra);
         
         
         $xml_response = null;
